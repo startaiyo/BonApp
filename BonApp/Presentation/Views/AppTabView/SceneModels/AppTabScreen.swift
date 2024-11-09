@@ -1,5 +1,5 @@
 //
-//  AppScreen.swift
+//  AppTabScreen.swift
 //  BonApp
 //
 //  Created by Shotaro Doi on 2024/10/18.
@@ -7,20 +7,21 @@
 
 import SwiftUI
 
-enum AppScreen: Hashable, Identifiable, CaseIterable {
+enum AppTabScreen: Hashable, Identifiable, CaseIterable {
     case home
     case myFoods
 
-    var id: AppScreen { return self }
+    var id: AppTabScreen { return self }
 }
 
-extension AppScreen {
+extension AppTabScreen {
     var label: some View {
         switch self {
-            case .home:
-                return Label("Home", systemImage: "heart.fill")
             case .myFoods:
                 return Label("My Foods", systemImage: "star.fill")
+            case .home:
+                return Label("Home", systemImage: "heart.fill")
+
         }
     }
 

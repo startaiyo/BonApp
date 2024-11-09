@@ -21,8 +21,9 @@ struct MyFoodsNavigationStack: View {
             }
                 .navigationDestination(for: MyFoodsRoute.self) { myFoodsRoute in
                     switch myFoodsRoute {
-                        case .detail(let foodData):
-                            Text(foodData.id.description)
+                        case .detail(let food):
+                            MyFoodsDetailView(food: food)
+                                .background(.lightPink)
                     }
                 }
         }

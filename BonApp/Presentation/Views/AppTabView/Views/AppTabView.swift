@@ -15,11 +15,11 @@ class Router {
 }
 
 struct AppTabView: View {
-    @Binding var selection: AppScreen?
+    @Binding var selection: AppTabScreen?
 
     var body: some View {
         TabView(selection: $selection) {
-            ForEach(AppScreen.allCases) { screen in
+            ForEach(AppTabScreen.allCases) { screen in
                 screen.destination
                     .tag(screen)
                     .tabItem { screen.label }

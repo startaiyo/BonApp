@@ -26,7 +26,8 @@ struct HomeNavigationStack: View {
                 .navigationDestination(for: HomeRoute.self) { homeRoute in
                     switch homeRoute {
                         case .detail(let foodData):
-                            Text(foodData.id.description)
+                            HomeDetailView(food: foodData)
+                            .background(.lightPink)
                     }
                 }
         }

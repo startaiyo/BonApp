@@ -1,15 +1,18 @@
 //
-//  ContentView.swift
+//  BaseTabView.swift
 //  BonApp
 //
-//  Created by Shotaro Doi on 2024/10/18.
+//  Created by Shotaro Doi on 2024/11/01.
 //
 
 import SwiftUI
 
-struct ContentView: View {
-    @State private var selection: AppScreen? = .home
+struct BaseTabView: View {
+    @State private var selection: AppTabScreen? = .home
     @State private var isShowingSideMenu = false
+    @State private var isShowingSetting = false
+    @State private var isShowingFollows = false
+    @State private var isShowingFollowers = false
 
     var body: some View {
         ZStack {
@@ -40,8 +43,26 @@ struct ContentView: View {
                     .toolbarBackground(Color.bonAppPink, for: .navigationBar)
                     .toolbarBackground(.visible, for: .navigationBar)
             }
-            SideMenuView(isOpen: $isShowingSideMenu)
-                .edgesIgnoringSafeArea(.all)
+            SideMenuView(isOpen: $isShowingSideMenu,
+                         onSettingClicked: {
+                isShowingSetting = true
+            },
+                         onFollowsClicked: {
+                isShowingFollows = true
+            },
+                         onFollowersClicked: {
+                isShowingFollowers = true
+            })
+            .edgesIgnoringSafeArea(.all)
+        }
+        .sheet(isPresented: $isShowingSetting) {
+            SettingView()
+        }
+        .sheet(isPresented: $isShowingFollows) {
+            FollowsView()
+        }
+        .sheet(isPresented: $isShowingFollowers) {
+            FollowersView()
         }
     }
 }
@@ -49,6 +70,9 @@ struct ContentView: View {
 struct SideMenuView: View {
     @Binding var isOpen: Bool
     let width: CGFloat = 100
+    let onSettingClicked: () -> Void
+    let onFollowsClicked: () -> Void
+    let onFollowersClicked: () -> Void
 
     var body: some View {
         ZStack {
@@ -66,9 +90,15 @@ struct SideMenuView: View {
 
             HStack {
                 VStack() {
-                    SideMenuContentView(text: "Follows")
-                    SideMenuContentView(text: "Followers")
-                    SideMenuContentView(text: "Settings")
+                    SideMenuContentView(text: "Follows") {
+                        onFollowsClicked()
+                    }
+                    SideMenuContentView(text: "Followers") {
+                        onFollowersClicked()
+                    }
+                    SideMenuContentView(text: "Settings") {
+                        onSettingClicked()
+                    }
                     Spacer()
                 }
                     .frame(width: width)
@@ -84,14 +114,11 @@ struct SideMenuView: View {
 
 struct SideMenuContentView: View {
     let text: String
-
-    init(text: String) {
-        self.text = text
-    }
+    let onTapGesture: () -> Void
 
     var body: some View {
         Button {
-            print(text + "tapped")
+            onTapGesture()
         } label: {
             Text(text)
         }
@@ -103,6 +130,6 @@ struct SideMenuContentView: View {
 }
 
 #Preview {
-    ContentView()
+    BaseTabView()
         .environment(Router())
 }
