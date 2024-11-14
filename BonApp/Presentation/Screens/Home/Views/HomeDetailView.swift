@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomeDetailView: View {
-    let food: FoodData
+    let food: FoodDataModel
 
     var body: some View {
         VStack {

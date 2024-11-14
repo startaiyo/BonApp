@@ -13,6 +13,7 @@ struct BonAppApp: App {
         WindowGroup {
             ContentView()
                 .environment(Router())
+                .environment(FoodStore())
         }
     }
 }

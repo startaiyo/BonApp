@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum HomeRoute: Hashable {
-    case detail(FoodData)
+    case detail(FoodDataModel)
 }
 
 struct HomeNavigationStack: View {

@@ -16,7 +16,7 @@ struct AddDescriptionView: View {
     @State var description = ""
 
     let image: Image?
-    let onSendButtonTapped: () -> Void
+    let onSendButtonTapped: (String, String) -> Void
     let onBackButtonTapped: () -> Void
 
     var body: some View {
@@ -88,7 +88,7 @@ struct AddDescriptionView: View {
                         .background(.bonAppPink)
                         .cornerRadius(6)
                     Button("Send") {
-                        onSendButtonTapped()
+                        onSendButtonTapped(title, description)
                         dismiss()
                     }
                         .frame(width: 100, height: 50)
@@ -102,5 +102,5 @@ struct AddDescriptionView: View {
 }
 
 #Preview {
-    AddDescriptionView(image: Image(systemName: "photo"), onSendButtonTapped: {}, onBackButtonTapped: {})
+    AddDescriptionView(image: Image(systemName: "photo"), onSendButtonTapped: {_,_ in }, onBackButtonTapped: {})
 }

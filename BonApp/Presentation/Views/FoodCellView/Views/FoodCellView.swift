@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct FoodCellView: View {
-    let food: FoodData
+    let food: FoodDataModel
     let imageSize: CGFloat
     let screenType: ScreenType
 
@@ -20,11 +20,13 @@ struct FoodCellView: View {
 
     var body: some View {
         ZStack {
-            KFImage(URL(string: food.imageURLString))
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: imageSize, height: imageSize)
-                .clipped()
+            if let image = UIImage(data: food.image) {
+                Image(uiImage: image)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: imageSize, height: imageSize)
+                    .clipped()
+            }
 
             VStack {
                 switch screenType {
