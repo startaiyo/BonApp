@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MyFoodsDetailView: View {
-    let food: FoodData
+    let food: FoodDataModel
 
     var body: some View {
         VStack {
@@ -26,8 +26,4 @@ struct MyFoodsDetailView: View {
             }
         }
     }
-}
-
-#Preview {
-    MyFoodsDetailView(food: .init(imageURLString: "https://images.unsplash.com/photo-1512149177596-f817c7ef5d4c", title: "hoge"))
 }
