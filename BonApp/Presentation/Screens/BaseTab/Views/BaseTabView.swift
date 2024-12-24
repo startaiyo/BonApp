@@ -16,33 +16,40 @@ struct BaseTabView: View {
 
     var body: some View {
         ZStack {
-            NavigationView {
-                AppTabView(selection: $selection)
-                    .navigationTitle("BonApp")
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            Button {
-                                isShowingSideMenu.toggle()
-                            } label: {
-                                Image(systemName: "person.crop.circle")
-                                    .renderingMode(.template)
-                                    .foregroundStyle(.black)
-                            }
+                if featureFlags().isDebugMode {
+                    AppTabView(selection: $selection)
+                        .navigationTitle("BonApp")
+                        .toolbar {
+                                ToolbarItem(placement: .navigationBarLeading) {
+                                    Button {
+                                        isShowingSideMenu.toggle()
+                                    } label: {
+                                        Image(systemName: "person.crop.circle")
+                                            .renderingMode(.template)
+                                            .foregroundStyle(.black)
+                                    }
+                                }
+                                ToolbarItem {
+                                    Button {
+                                        print("Filter tapped")
+                                    } label: {
+                                        Image(systemName: "line.3.horizontal.decrease.circle")
+                                            .renderingMode(.template)
+                                            .foregroundStyle(.black)
+                                    }
+                                }
                         }
-                        ToolbarItem {
-                            Button {
-                                print("Filter tapped")
-                            } label: {
-                                Image(systemName: "line.3.horizontal.decrease.circle")
-                                    .renderingMode(.template)
-                                    .foregroundStyle(.black)
-                            }
-                        }
-                    }
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbarBackground(Color.bonAppPink, for: .navigationBar)
-                    .toolbarBackground(.visible, for: .navigationBar)
-            }
+                        .navigationBarTitleDisplayMode(.inline)
+                        .toolbarBackground(Color.bonAppPink, for: .navigationBar)
+                        .toolbarBackground(.visible, for: .navigationBar)
+                } else {
+                    HomeNavigationStack()
+                        .navigationTitle("BonApp")
+                        .navigationBarTitleDisplayMode(.inline)
+                        .toolbarBackground(Color.bonAppPink, for: .navigationBar)
+                        .toolbarBackground(.visible, for: .navigationBar)
+                }
+
             SideMenuView(isOpen: $isShowingSideMenu,
                          onSettingClicked: {
                 isShowingSetting = true
@@ -132,4 +139,5 @@ struct SideMenuContentView: View {
 #Preview {
     BaseTabView()
         .environment(Router())
+        .environment(FoodStore())
 }

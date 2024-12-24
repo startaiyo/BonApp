@@ -25,5 +25,8 @@ struct MyFoodsDetailView: View {
                 .clipShape(Capsule())
             }
         }
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(Color.bonAppPink, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
     }
 }

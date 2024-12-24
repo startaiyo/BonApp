@@ -28,8 +28,9 @@ struct FoodCellView: View {
                     .clipped()
             }
 
-            VStack {
-                switch screenType {
+            if featureFlags().isDebugMode {
+                VStack {
+                    switch screenType {
                     case .home:
                         Spacer()
                         HStack {
@@ -63,6 +64,7 @@ struct FoodCellView: View {
                             .padding([.top, .trailing], 10)
                         }
                         Spacer()
+                    }
                 }
             }
         }

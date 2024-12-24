@@ -17,3 +17,15 @@ struct BonAppApp: App {
         }
     }
 }
+
+struct featureFlags {
+    let isDebugMode: Bool
+
+    init() {
+    #if DEBUG
+        isDebugMode = false
+    #else
+        isDebugMode = false
+    #endif
+    }
+}

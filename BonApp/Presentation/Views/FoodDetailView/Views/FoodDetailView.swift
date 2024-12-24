@@ -25,11 +25,11 @@ struct FoodDetailView: View {
             }
 
             VStack(spacing: 0) {
-                Text("Title")
+                Text(food.title)
                     .frame(maxWidth: .infinity, minHeight: 40)
                     .background(.darkPink)
 
-                Text("Description")
+                Text(food.caption)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .frame(minHeight: 100, alignment: .top)
                     .padding()

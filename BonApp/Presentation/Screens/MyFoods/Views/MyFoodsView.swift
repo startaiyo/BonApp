@@ -12,9 +12,9 @@ enum MyFoodsRoute: Hashable {
 }
 
 struct MyFoodsView: View {
+    @Environment(FoodStore.self) private var foodStore
     let onTapGesture: (FoodDataModel) -> Void
 
-//    private let foods: [FoodDataModel]
     private let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: 0), count: 2)
     private let imageSize = UIScreen.main.bounds.width / 2 - 20
 
@@ -22,18 +22,15 @@ struct MyFoodsView: View {
         GeometryReader { proxy in
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 0) {
-//                    ForEach(foods) { food in
-//                        FoodCellView(food: food, imageSize: proxy.size.width / 2, screenType: .myFoods)
-//                            .onTapGesture {
-//                                onTapGesture(food)
-//                            }
-//                    }
+                    ForEach(foodStore.localFoods) { food in
+                        FoodCellView(food: food, imageSize: proxy.size.width / 2, screenType: .myFoods)
+                            .onTapGesture {
+                                onTapGesture(food)
+                            }
+                    }
                 }
             }
         }
     }
 }
 
-#Preview {
-    MyFoodsView(onTapGesture: { _ in })
-}

@@ -3,6 +3,6 @@
 <plist version="1.0">
 <dict>
 	<key>NSCameraUsageDescription</key>
-	<string>This app needs to capture food image to show in the app</string>
+	<string>食事の写真を撮影するのにカメラを使用します</string>
 </dict>
 </plist>

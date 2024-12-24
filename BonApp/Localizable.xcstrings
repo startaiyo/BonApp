@@ -1,0 +1,154 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "+" : {
+
+    },
+    "aaa@hoge.com" : {
+
+    },
+    "Back" : {
+
+    },
+    "BonApp" : {
+
+    },
+    "Cancel" : {
+
+    },
+    "DELETE_TITLE" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "削除"
+          }
+        }
+      }
+    },
+    "email" : {
+
+    },
+    "EMPTY_DESCRIPTION" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No description"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "説明文なし"
+          }
+        }
+      }
+    },
+    "ENTER_DESCRIPTION" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add description"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "説明文を入力してください"
+          }
+        }
+      }
+    },
+    "ENTER_TITLE" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add title"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "タイトル"
+          }
+        }
+      }
+    },
+    "Home" : {
+
+    },
+    "My Foods" : {
+
+    },
+    "name" : {
+
+    },
+    "Name" : {
+
+    },
+    "Next" : {
+
+    },
+    "OPEN_CAMERA" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open camera"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "カメラを開く"
+          }
+        }
+      }
+    },
+    "OPEN_LIBRARY" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open library"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ライブラリを開く"
+          }
+        }
+      }
+    },
+    "SAVE" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存"
+          }
+        }
+      }
+    },
+    "Send" : {
+
+    }
+  },
+  "version" : "1.0"
+}

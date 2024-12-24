@@ -13,20 +13,25 @@ class FoodStore {
     private let modelContainer: ModelContainer
     private let modelContext: ModelContext
 
-    var foods = [FoodDataModel]()
+    var allFoods = [FoodDataModel]()
+    var localFoods = [FoodDataModel]()
 
     @MainActor
-    init(modelContainer: ModelContainer = try! ModelContainer(for: FoodDataModel.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))) {
+    init(modelContainer: ModelContainer = try! ModelContainer(for: FoodDataModel.self, configurations: ModelConfiguration(isStoredInMemoryOnly: false))) {
         self.modelContainer = modelContainer
         self.modelContext = modelContainer.mainContext
     }
 
     func loadFoods() {
-        foods = try! modelContext.fetch(FetchDescriptor<FoodDataModel>())
+        localFoods = try! modelContext.fetch(FetchDescriptor<FoodDataModel>()).sorted(by: { $0.createdAt > $1.createdAt })
     }
 
     func addFood(_ food: FoodDataModel) {
         modelContext.insert(food)
         try! modelContext.save()
+    }
+
+    func deleteFood(_ food: FoodDataModel) {
+        modelContext.delete(food)
     }
 }

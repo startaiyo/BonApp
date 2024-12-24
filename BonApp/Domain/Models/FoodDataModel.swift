@@ -14,10 +14,12 @@ class FoodDataModel: Hashable, Identifiable {
     var image: Data
     var title: String
     var caption: String
+    var createdAt: Date
 
     init(image: Data, title: String, caption: String) {
         self.image = image
         self.title = title
         self.caption = caption
+        self.createdAt = Date()
     }
 }

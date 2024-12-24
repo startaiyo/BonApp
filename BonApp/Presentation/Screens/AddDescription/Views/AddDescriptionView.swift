@@ -10,13 +10,13 @@ import SwiftUI
 struct AddDescriptionView: View {
     @Environment(\.dismiss) var dismiss
 
-    @State var isTitleEditable = false
-    @State var isDescriptionEditable = false
     @State var title = ""
     @State var description = ""
+    @State private var keyboardOffset: CGFloat = 0
 
     let image: Image?
     let onSendButtonTapped: (String, String) -> Void
+    let onSaveButtonTapped: (String, String) -> Void
     let onBackButtonTapped: () -> Void
 
     var body: some View {
@@ -42,65 +42,83 @@ struct AddDescriptionView: View {
                            maxHeight: UIScreen.main.bounds.height)
                     .padding()
             }
-            Spacer()
-                .frame(height: 50)
             VStack {
-                HStack {
-                    TextField("Title",
-                              text: $title)
-                        .disabled(!isTitleEditable)
-                        .border(isTitleEditable ? .gray : .white, width: 1)
-                    Button {
-                        isTitleEditable.toggle()
-                    } label: {
-                        Image(systemName: "square.and.pencil")
-                            .tint(.black)
-                    }
-                }
-                HStack(alignment: .top) {
-                    TextEditor(text: $description)
-                        .disabled(!isDescriptionEditable)
-                        .border(isDescriptionEditable ? .gray : .white, width: 1)
-                        .overlay(alignment: .topLeading) {
-                            if description.isEmpty {
-                                Text("Description")
-                                    .allowsHitTesting(false)
-                                    .foregroundColor(Color(uiColor: .placeholderText))
-                                    .padding(6)
-                            }
-                        }
-                    Button {
-                        isDescriptionEditable.toggle()
-                    } label: {
-                        Image(systemName: "square.and.pencil")
-                            .tint(.black)
-                    }
-                }
+                TextField("ENTER_TITLE",
+                          text: $title)
+                .textFieldStyle(.roundedBorder)
+                TextField("ENTER_DESCRIPTION",
+                          text: $description,
+                          axis: .vertical)
+                .textFieldStyle(.roundedBorder)
+                .padding(.all)
             }
-
             VStack(spacing: 50) {
                 HStack(alignment: .center, spacing: 50) {
-                    Button("Back") {
-                        dismiss()
-                        onBackButtonTapped()
-                    }
+                    if featureFlags().isDebugMode {
+                        Button("Back") {
+                            dismiss()
+                            onBackButtonTapped()
+                        }
                         .frame(width: 100, height: 50)
                         .background(.bonAppPink)
                         .cornerRadius(6)
-                    Button("Send") {
-                        onSendButtonTapped(title, description)
-                        dismiss()
                     }
+                    Button {
+                        onSaveButtonTapped(title, description)
+                        dismiss()
+                    } label: {
+                        Text("SAVE")
+                    }
+                    .frame(width: 100, height: 50)
+                    .background(.bonAppPink)
+                    .cornerRadius(6)
+                    if featureFlags().isDebugMode {
+                        Button("Send") {
+                            onSendButtonTapped(title, description)
+                            dismiss()
+                        }
                         .frame(width: 100, height: 50)
                         .background(.bonAppPink)
                         .cornerRadius(6)
+                    }
                 }
             }
+            Spacer()
         }
-        .padding()
+        .padding(.bottom, keyboardOffset)
+        .animation(.easeOut(duration: 0.3), value: keyboardOffset)
+        .onTapGesture {
+            dismissKeyboard()
+        }
+        .onAppear {
+            addKeyboardObservers()
+        }
+        .onDisappear {
+            removeKeyboardObservers()
+        }
+    }
+
+    private func dismissKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+
+    private func addKeyboardObservers() {
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
+            if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+                keyboardOffset = keyboardFrame.height - 20 // Add some padding
+            }
+        }
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
+            keyboardOffset = 0
+        }
+    }
+
+    private func removeKeyboardObservers() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 }
 
 #Preview {
-    AddDescriptionView(image: Image(systemName: "photo"), onSendButtonTapped: {_,_ in }, onBackButtonTapped: {})
+    AddDescriptionView(image: Image(systemName: "photo"), onSendButtonTapped: {_,_ in }, onSaveButtonTapped: {_,_ in }, onBackButtonTapped: {})
 }

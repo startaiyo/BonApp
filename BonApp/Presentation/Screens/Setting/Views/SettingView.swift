@@ -48,7 +48,11 @@ struct SettingView: View {
                     .frame(width: 100, height: 50)
                     .background(.bonAppPink)
                     .cornerRadius(6)
-                Button("Save") {}
+                Button {
+
+                } label: {
+                    Text("SAVE")
+                }
                     .frame(width: 100, height: 50)
                     .background(.bonAppPink)
                     .cornerRadius(6)

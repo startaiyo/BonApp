@@ -26,7 +26,7 @@ struct HomeView: View {
             ZStack {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 0) {
-                        ForEach(foodStore.foods) { food in
+                        ForEach(featureFlags().isDebugMode ? foodStore.allFoods : foodStore.localFoods) { food in
                             FoodCellView(food: food, imageSize: proxy.size.width / 2, screenType: .home)
                                 .onTapGesture {
                                     onTapGesture(food)
@@ -39,11 +39,15 @@ struct HomeView: View {
                     HStack {
                         Spacer()
                         Menu {
-                            Button("open camera") {
+                            Button {
                                 isCameraShowing.toggle()
+                            } label: {
+                                Text("OPEN_CAMERA")
                             }
-                            Button("open library") {
+                            Button {
                                 isPickerShowing.toggle()
+                            } label: {
+                                Text("OPEN_LIBRARY")
                             }
                         } label: {
                             ZStack {
@@ -66,19 +70,43 @@ struct HomeView: View {
             }
             .fullScreenCover(isPresented: $isPhotoEditViewShowing) {
                 if let image = selectedImage {
-                    PhotoEditView(onNextButtonTapped: {
-                        isAddDescriptionShowing = true
-                    },
-                                  image: Image(uiImage: image))
+                    if featureFlags().isDebugMode {
+                        PhotoEditView(onNextButtonTapped: {
+                            isAddDescriptionShowing = true
+                        },
+                                      image: Image(uiImage: image))
                         .padding()
                         .background(.white)
+                    } else {
+                        AddDescriptionView(image: Image(uiImage: image), onSendButtonTapped: { title, description in
+    //                        guard let data = image.jpegData(compressionQuality: 1) else { return }
+    //                        foodStore.addFood(.init(image: data, title: title, caption: description))
+    //                        foodStore.loadFoods()
+                        }, onSaveButtonTapped: { title, description in
+                            guard let data = image.jpegData(compressionQuality: 1) else { return }
+                            foodStore.addFood(.init(image: data,
+                                                    title: title.isEmpty ? "Image - " + UUID().uuidString : title,
+                                                    caption: description.isEmpty ? NSLocalizedString("EMPTY_DESCRIPTION", comment: "") : description))
+                            foodStore.loadFoods()
+                        }, onBackButtonTapped: {
+                            isPhotoEditViewShowing = true
+                        })
+                            .padding()
+                            .background(.white)
+                    }
                 }
             }
             .fullScreenCover(isPresented: $isAddDescriptionShowing) {
                 if let image = selectedImage {
                     AddDescriptionView(image: Image(uiImage: image), onSendButtonTapped: { title, description in
+//                        guard let data = image.jpegData(compressionQuality: 1) else { return }
+//                        foodStore.addFood(.init(image: data, title: title, caption: description))
+//                        foodStore.loadFoods()
+                    }, onSaveButtonTapped: { title, description in
                         guard let data = image.jpegData(compressionQuality: 1) else { return }
-                        foodStore.addFood(.init(image: data, title: title, caption: description))
+                        foodStore.addFood(.init(image: data,
+                                                title: title.isEmpty ? "Image - " + UUID().uuidString : title,
+                                                caption: description.isEmpty ? NSLocalizedString("EMPTY_DESCRIPTION", comment: "") : description))
                         foodStore.loadFoods()
                     }, onBackButtonTapped: {
                         isPhotoEditViewShowing = true
@@ -141,6 +169,3 @@ class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerContro
     }
 }
 
-#Preview {
-    HomeView(onTapGesture: { _ in })
-}
